@@ -41,6 +41,7 @@ public class UserDefaultsManagement {
         static let codeBlockHighlight = "codeBlockHighlight"
         static let codeTheme = "codeTheme"
         static let DefaultLanguageKey = "defaultLanguage"
+        static let DropboxCursor = "dropboxCursor"
         static let FontNameKey = "font"
         static let FontSizeKey = "fontsize"
         static let FontColorKey = "fontColorKeyed"
@@ -598,6 +599,19 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.ShowDockIcon)
+        }
+    }
+    
+    static var dropboxCursor: String? {
+        get {
+            if let cursor = UserDefaults.standard.object(forKey: Constants.DropboxCursor) as? String {
+                return cursor
+            }
+            
+            return nil
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.DropboxCursor)
         }
     }
 }

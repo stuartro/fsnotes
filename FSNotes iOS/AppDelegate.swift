@@ -11,6 +11,7 @@ import CoreData
 import Solar
 import NightNight
 import CoreLocation
+import SwiftyDropbox
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var launchedShortcutItem: UIApplicationShortcutItem?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        DropboxClientsManager.setupWithAppKey(Config.dropboxKey)
+        DropboxManager.shared.initialSync()
+        
         var shouldPerformAdditionalDelegateHandling = true
         
         if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
@@ -199,6 +203,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return handled
     }
     
-    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        if let authResult = DropboxClientsManager.handleRedirectURL(url) {
+            switch authResult {
+            case .success:
+                print("Success! User is logged into Dropbox.")
+                if let svc = UIApplication.shared.getTopController() as? SettingsViewController {
+                    svc.tableView.reloadData()
+                    
+                    DropboxManager.shared.initialSync()
+                }
+            case .cancel:
+                print("Authorization flow was manually canceled by user!")
+            case .error(_, let description):
+                print("Error: \(description)")
+            }
+        }
+        return true
+    }
 }
 

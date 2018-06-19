@@ -21,4 +21,5 @@ target 'FSNotes iOS' do
     pod 'Solar'
     pod 'NightNight', :git => 'https://github.com/weiran/NightNight.git', :branch => 'swift4'
     pod 'Down', '~> 0.4.2'
+    pod 'SwiftyDropbox'
 end

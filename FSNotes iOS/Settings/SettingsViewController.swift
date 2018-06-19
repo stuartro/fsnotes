@@ -8,11 +8,12 @@
 
 import UIKit
 import NightNight
+import SwiftyDropbox
 
 class SettingsViewController: UITableViewController {
     
-    var sections = ["General", "Editor", "UI"]
-    var rowsInSection = [2, 2, 2]
+    var sections = ["General", "Editor", "UI", "Storage"]
+    var rowsInSection = [2, 2, 2, 1]
         
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
@@ -28,7 +29,7 @@ class SettingsViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return sections.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -49,6 +50,8 @@ class SettingsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        print(111)
         let cell = UITableViewCell()
         
         let view = UIView()
@@ -89,6 +92,16 @@ class SettingsViewController: UITableViewController {
             case 1:
                 cell.textLabel?.text = "Night Mode"
                 cell.accessoryType = .disclosureIndicator
+            default:
+                return cell
+            }
+        }
+        
+        if indexPath.section == 0x03 {
+            switch indexPath.row {
+            case 0:
+                cell.textLabel?.text = DropboxClientsManager.authorizedClient == nil ? "Link Dropbox" : "Unlink Dropbox"
+                cell.accessoryType = .none
             default:
                 return cell
             }
@@ -136,6 +149,21 @@ class SettingsViewController: UITableViewController {
                 lvc = NightModeViewController(style: .grouped)
             default: break
                 
+            }
+        }
+        
+        if indexPath.section == 0x03 {
+            if DropboxClientsManager.authorizedClient != nil {
+                DropboxClientsManager.unlinkClients()
+                tableView.reloadData()
+            } else {
+                DropboxClientsManager.authorizeFromController(
+                    UIApplication.shared,
+                    controller: self,
+                    openURL: { (url: URL) -> Void in
+                        UIApplication.shared.openURL(url)
+                    }
+                )
             }
         }
         

@@ -9,6 +9,7 @@
 import UIKit
 import NightNight
 import Solar
+import SwiftyDropbox
 
 class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizerDelegate {
 

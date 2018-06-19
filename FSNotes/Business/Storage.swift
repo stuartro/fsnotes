@@ -46,6 +46,13 @@ class Storage {
         
         guard let url = UserDefaultsManagement.storageUrl else { return }
         
+        #if os(iOS)
+            if let dropboxURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last?.appendingPathComponent("Dropbox") {
+                let project = Project(url: dropboxURL, label: "Dropbox", isRoot: true, isDefault: true)
+                add(project: project)
+            }
+        #endif
+        
         var name = url.lastPathComponent
         if let iCloudURL = getCloudDrive(), iCloudURL == url {
             name = "iCloud Drive"
