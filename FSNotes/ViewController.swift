@@ -106,7 +106,7 @@ class ViewController: NSViewController,
         notesTableView.loadingQueue.qualityOfService = QualityOfService.userInteractive
     }
     
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return false}
         
         if let title = menuItem.menu?.identifier?.rawValue {
@@ -184,8 +184,8 @@ class ViewController: NSViewController,
         self.setTableRowHeight()
         self.storageOutlineView.sidebarItems = Sidebar().getList()
         
-        self.sidebarSplitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SidebarSplitView")
-        self.splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "EditorSplitView")
+        self.sidebarSplitView.autosaveName = "SidebarSplitView"
+        self.splitView.autosaveName = "EditorSplitView"
     }
     
     private func configureNotesList() {
@@ -213,7 +213,7 @@ class ViewController: NSViewController,
         if UserDefaultsManagement.appearanceType != AppearanceType.Custom {
             if #available(OSX 10.13, *) {
                 self.editArea?.linkTextAttributes = [
-                    .foregroundColor:  NSColor.init(named: NSColor.Name(rawValue: "link"))!
+                    .foregroundColor:  NSColor.init(named: "link")!
                 ]
             }
         }
@@ -901,7 +901,7 @@ class ViewController: NSViewController,
             _ = note.removeFile()
         }
         
-        NSSound(named: NSSound.Name(rawValue: "Pop"))?.play()
+        NSSound(named: "Pop")?.play()
     }
     
     @IBAction func printNotes(_ sender: NSMenuItem) {
@@ -928,18 +928,18 @@ class ViewController: NSViewController,
             return
         }
 
-        if let controller = vc.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "ProjectSettingsViewController"))
+        if let controller = vc.storyboard?.instantiateController(withIdentifier: "ProjectSettingsViewController")
             as? ProjectSettingsViewController {
                 self.projectSettingsViewController = controller
 
             if let project = vc.getSidebarProject() {
-                vc.presentViewControllerAsSheet(controller)
+                vc.presentAsSheet(controller)
                 controller.load(project: project)
             }
         }
     }
 
-    override func controlTextDidEndEditing(_ obj: Notification) {
+    func controlTextDidEndEditing(_ obj: Notification) {
         guard let textField = obj.object as? NSTextField, textField == titleLabel else { return }
         
         if titleLabel.isEditable == true {
@@ -1369,7 +1369,7 @@ class ViewController: NSViewController,
         cell.name.stringValue = note.getTitleWithoutLabel()
 
         if UserDefaultsManagement.appearanceType != AppearanceType.Custom, !NSAppearance.current.isDark, #available(OSX 10.13, *) {
-            cell.name.textColor = NSColor.init(named: NSColor.Name(rawValue: "reverseBackground"))
+            cell.name.textColor = NSColor.init(named: "reverseBackground")
         }
         
         let fileName = cell.name.currentEditor()!.string as NSString

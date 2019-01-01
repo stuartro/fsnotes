@@ -263,7 +263,7 @@ class PrefsViewController: NSViewController {
     let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
     
     // changeFont is sent by the Font Panel.
-    override func changeFont(_ sender: Any?) {
+    func changeFont(_ sender: Any?) {
         let fontManager = NSFontManager.shared
         let newFont = fontManager.convert(UserDefaultsManagement.noteFont!)
         UserDefaultsManagement.noteFont = newFont

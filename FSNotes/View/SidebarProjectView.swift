@@ -20,7 +20,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     private var storage = Storage.sharedInstance()
     private var isFirstLaunch = true
     
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         if let sidebarItem = getSidebarItem(), let project = sidebarItem.project, project.isArchive {
             if menuItem.title == NSLocalizedString("Reveal folder", comment: "") {
                 return true
@@ -89,7 +89,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     
     func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
         guard let sidebarItem = item as? SidebarItem else { return false }
-        let board = info.draggingPasteboard()
+        let board = info.draggingPasteboard
         
         switch sidebarItem.type {
         case .Tag:
@@ -153,7 +153,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     
     func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
         guard let sidebarItem = item as? SidebarItem else { return NSDragOperation() }
-        let board = info.draggingPasteboard()
+        let board = info.draggingPasteboard
 
         switch sidebarItem.type {
         case .Tag, .Trash:
@@ -564,7 +564,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 let row = self.rowView(atRow: i, makeIfNecessary: false),
                 let cell = row.view(atColumn: 0) as? SidebarCellView {
                 
-                cell.icon.image = NSImage(named: NSImage.Name(rawValue: "tag.png"))
+                cell.icon.image = NSImage(named: "tag.png")
             }
         }
     }
@@ -572,14 +572,14 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     public func selectTag(item: SidebarItem) {
         let i = self.row(forItem: item)
         if let row = self.rowView(atRow: i, makeIfNecessary: true), let cell = row.view(atColumn: 0) as? SidebarCellView {
-            cell.icon.image = NSImage(named: NSImage.Name(rawValue: "tag_red.png"))
+            cell.icon.image = NSImage(named: "tag_red.png")
         }
     }
     
     public func deselectTag(item: SidebarItem) {
         let i = self.row(forItem: item)
         if let row = self.rowView(atRow: i, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
-            cell.icon.image = NSImage(named: NSImage.Name(rawValue: "tag.png"))
+            cell.icon.image = NSImage(named: "tag.png")
         }
     }
     
@@ -588,7 +588,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         for item in items {
             let i = self.row(forItem: item)
             if let row = self.rowView(atRow: i, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
-                cell.icon.image = NSImage(named: NSImage.Name(rawValue: "tag.png"))
+                cell.icon.image = NSImage(named: "tag.png")
             }
         }
     }

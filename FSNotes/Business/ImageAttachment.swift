@@ -31,8 +31,8 @@ class ImageAttachment {
     }
     
     public func getAttributedString() -> NSMutableAttributedString?  {
-        let pathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
-        let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
+        let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
+        let titleKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.title")
 
         var saveCache: URL?
         let mainURL: URL
@@ -133,7 +133,7 @@ class ImageAttachment {
                 .link: String(),
                 .attachment: attachment,
                 .paragraphStyle: ps
-            ] as [NSAttributedStringKey : Any]
+            ] as [NSAttributedString.Key : Any]
 
         mutableString.addAttributes(attributes, range: NSRange(0..<1))
         return mutableString

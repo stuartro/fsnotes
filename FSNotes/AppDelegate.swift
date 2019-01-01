@@ -67,9 +67,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
         
-        let storyboard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
         
-        guard let mainWC = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "MainWindowController")) as? MainWindowController else {
+        guard let mainWC = storyboard.instantiateController(withIdentifier: "MainWindowController") as? MainWindowController else {
             fatalError("Error getting main window controller")
         }
         

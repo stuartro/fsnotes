@@ -481,7 +481,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
     private func setTextColor() {
         if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-            textColor = NSColor.init(named: NSColor.Name(rawValue: "mainText"))
+            textColor = NSColor.init(named: "mainText")
         } else {
             textColor = UserDefaultsManagement.fontColor
         }
@@ -755,11 +755,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
         return attributedText
     }
     
-    public func getCodeBlockAttributes() -> [NSAttributedStringKey : Any] {
+    public func getCodeBlockAttributes() -> [NSAttributedString.Key : Any] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
         
-        var attributes: [NSAttributedStringKey : Any] = [
+        var attributes: [NSAttributedString.Key : Any] = [
             .backgroundColor: NotesTextProcessor.codeBackground,
             .paragraphStyle: paragraphStyle
         ]
@@ -857,18 +857,18 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
     
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
-        let board = sender.draggingPasteboard()
+        let board = sender.draggingPasteboard
         var data: Data
         
         guard let note = getSelectedNote(), let storage = textStorage else { return false }
         
         if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "attributedText")), let attributedText = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSMutableAttributedString {
-            let dropPoint = convert(sender.draggingLocation(), from: nil)
+            let dropPoint = convert(sender.draggingLocation, from: nil)
             let caretLocation = characterIndexForInsertion(at: dropPoint)
             
-            let filePathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
-            let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
-            let positionKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.position")
+            let filePathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
+            let titleKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.title")
+            let positionKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.position")
             
             guard
                 let path = attributedText.attribute(filePathKey, at: 0, effectiveRange: nil) as? String,
@@ -896,7 +896,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL],
             urls.count > 0 {
             
-            let dropPoint = convert(sender.draggingLocation(), from: nil)
+            let dropPoint = convert(sender.draggingLocation, from: nil)
             let caretLocation = characterIndexForInsertion(at: dropPoint)
             
             var result = String()
@@ -1036,12 +1036,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
         guard let selected = attributedSubstring(forProposedRange: selectedRange(), actualRange: nil) else { return .generic }
         
         let attributedString = NSMutableAttributedString(attributedString: selected)
-        let positionKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.position")
+        let positionKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.position")
         attributedString.addAttribute(positionKey, value: selectedRange().location, range: NSRange(0..<1))
         
         let data = NSKeyedArchiver.archivedData(withRootObject: attributedString)
         let type = NSPasteboard.PasteboardType.init(rawValue: "attributedText")
-        let board = sender.draggingPasteboard()
+        let board = sender.draggingPasteboard
         board.setData(data, forType: type)
         
         return .copy
@@ -1072,7 +1072,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
         
         let window = NSApp.windows[0]
-        let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
+        let titleKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.title")
         
         guard let vc = window.contentViewController as? ViewController else { return }
 

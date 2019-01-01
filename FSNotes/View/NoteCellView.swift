@@ -122,9 +122,9 @@ class NoteCellView: NSTableCellView {
         textParagraph.maximumLineHeight = previewMaximumLineHeight
         
         let attribs = [
-            NSAttributedStringKey.font: font,
-            NSAttributedStringKey.foregroundColor: textColor,
-            NSAttributedStringKey.paragraphStyle: textParagraph
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.foregroundColor: textColor,
+            NSAttributedString.Key.paragraphStyle: textParagraph
         ]
         
         preview.attributedStringValue = NSAttributedString.init(string: string, attributes: attribs)
@@ -155,7 +155,7 @@ class NoteCellView: NSTableCellView {
             date.textColor = labelColor
 
             if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-                name.textColor = NSColor.init(named: NSColor.Name(rawValue: "mainText"))
+                name.textColor = NSColor.init(named: "mainText")
             } else {
                 name.textColor = NSColor.black
             }

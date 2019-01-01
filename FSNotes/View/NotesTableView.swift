@@ -50,7 +50,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         super.keyUp(with: event)
     }
     
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         return true
     }
     
